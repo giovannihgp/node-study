@@ -1,0 +1,17 @@
+#Dependencies
+node_modules
+
+#Database
+db/*.db
+
+#Environment
+.env
+.env.production
+.env.test
+
+#Build
+build
+
+
+dist/
+backup/
