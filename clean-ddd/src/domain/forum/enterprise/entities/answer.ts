@@ -1,4 +1,5 @@
-import { Entify } from "@/core/entities/entity.js";
+import { AggregateRoot } from "@/core/entities/aggregate-root.js";
+import { AnswerCreateEvent } from "../events/answer-created-event.js";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id.js";
 import type { Optional } from "@/core/types/optional.js";
 import { AnswerAttachmentList } from "./answer-attachment-list.js";
@@ -12,7 +13,7 @@ export interface AnswerProps {
     updatedAt?: Date
 }
 
-export class Answer extends Entify<AnswerProps> {
+export class Answer extends AggregateRoot<AnswerProps> {
     get authorId() {
         return this.props.authorId
     }
@@ -39,9 +40,9 @@ export class Answer extends Entify<AnswerProps> {
 
     get excerpt() {
         return this.content
-          .substring(0, 120)
-          .trimEnd()
-          .concat('...')
+            .substring(0, 120)
+            .trimEnd()
+            .concat('...')
     }
 
     private touch() {
@@ -62,11 +63,20 @@ export class Answer extends Entify<AnswerProps> {
         props: Optional<AnswerProps, 'createdAt' | 'attachments'>,
         id?: UniqueEntityID
     ) {
-        const answer = new Answer({
-            ...props,
-            attachments: props.attachments ?? new AnswerAttachmentList(),
-            createdAt: props.createdAt ?? new Date(),
-        }, id)
+        const answer = new Answer(
+            {
+                ...props,
+                attachments: props.attachments ?? new AnswerAttachmentList(),
+                createdAt: props.createdAt ?? new Date(),
+            }, 
+            id
+        )
+
+        const isNewAnswer = !id
+
+        if (isNewAnswer) {
+            answer.addDomainEvent(new AnswerCreateEvent(answer))
+        }
 
         return answer
     }

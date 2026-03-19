@@ -1,4 +1,4 @@
-import { Entify } from "@/core/entities/entity.js";
+import { Entity } from "@/core/entities/entity.js";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id.js";
 import type { Optional } from "@/core/types/optional.js";
 
@@ -10,7 +10,7 @@ export interface NotificationProps {
     createdAt: Date
 }
 
-export class Notification extends Entify<NotificationProps> {
+export class Notification extends Entity<NotificationProps> {
     get recipientId() {
         return this.props.recipientId
     }

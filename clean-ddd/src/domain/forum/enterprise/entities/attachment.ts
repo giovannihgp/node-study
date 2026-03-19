@@ -1,4 +1,4 @@
-import { Entify } from "@/core/entities/entity.js";
+import { Entity } from "@/core/entities/entity.js";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id.js";
 
 interface AttachmentProps {
@@ -6,7 +6,7 @@ interface AttachmentProps {
     link: string
 }
 
-export class Attachment extends Entify<AttachmentProps> {
+export class Attachment extends Entity<AttachmentProps> {
     get title() {
         return this.props.title
     }

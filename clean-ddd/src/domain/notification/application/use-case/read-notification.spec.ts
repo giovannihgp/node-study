@@ -38,8 +38,8 @@ describe('Send Notification', () => {
         inMemoryNotificationsRepository.create(notification)
 
         const result = await sut.execute({
-            recipientId: notification.id.toString(),
-            notificationId: 'recipient-2',
+            notificationId: notification.id.toString(),
+            recipientId: 'recipient-2',
         })
 
         expect(result.isLeft()).toBe(true)

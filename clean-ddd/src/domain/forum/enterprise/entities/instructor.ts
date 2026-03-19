@@ -1,11 +1,11 @@
-import { Entify } from "@/core/entities/entity.js";
+import { Entity } from "@/core/entities/entity.js";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id.js";
 
 interface InstructorProps {
     name: string
 }
 
-export class Instructor extends Entify<InstructorProps> {
+export class Instructor extends Entity<InstructorProps> {
     static create(
         props: InstructorProps,
         id?: UniqueEntityID,

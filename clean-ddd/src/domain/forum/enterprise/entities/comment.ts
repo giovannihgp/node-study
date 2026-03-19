@@ -1,4 +1,4 @@
-import { Entify } from "@/core/entities/entity.js";
+import { Entity } from "@/core/entities/entity.js";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id.js";
 
 export interface CommentProps {
@@ -10,7 +10,7 @@ export interface CommentProps {
 
 export abstract class Comment<
     Props extends CommentProps,
-> extends Entify<Props> {
+> extends Entity<Props> {
     get authorId() {
         return this.props.authorId
     }
