@@ -1,7 +1,8 @@
 import { Module } from "@nestjs/common";
-import { CreateQuestionController } from "@/controllers/create-question.controller";
 import { PrismaModule } from "@/database/prisma.module";
-import { AuthModule } from "@/auth/auth.module";
+import { AuthModule } from "@/infra/auth/auth.module";
+import { CreateQuestionController } from "@/infra/http/controllers/create-question.controller";
+import { FetchRecentQuestionsController } from "@/infra/http/controllers/fetch-recent-questions.controller";
 
 @Module({
     imports: [
@@ -10,6 +11,7 @@ import { AuthModule } from "@/auth/auth.module";
     ],
     controllers: [
         CreateQuestionController,
+        FetchRecentQuestionsController,
     ],
 })
-export class QuestionsModule {}
+export class QuestionsModule { }
