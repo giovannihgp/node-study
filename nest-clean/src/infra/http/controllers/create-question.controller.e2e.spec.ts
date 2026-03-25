@@ -1,5 +1,5 @@
 import { AppModule } from "@/infra/app.module";
-import { PrismaService } from "@/infra/prisma/prisma.service";
+import { PrismaService } from "@/infra/database/prisma/prisma.service";
 import { INestApplication } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Test } from "@nestjs/testing";
@@ -36,11 +36,12 @@ describe('Create question (e2e)', () => {
 
         const accessToken = jwt.sign({ sub: user.id })
 
+        const title = `New question ${randomUUID()}`
         const response = await request(app.getHttpServer())
             .post('/questions')
             .set('Authorization', `Bearer ${accessToken}`)
             .send({
-                title: 'New question',
+                title,
                 content: 'Question content'
             })
 
@@ -48,7 +49,7 @@ describe('Create question (e2e)', () => {
 
         const questionOnDatabase = await prisma.question.findFirst({
             where: {
-                title: 'New question',
+                title,
             },
         })
 

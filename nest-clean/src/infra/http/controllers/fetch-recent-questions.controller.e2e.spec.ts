@@ -1,5 +1,5 @@
 import { AppModule } from "@/infra/app.module";
-import { PrismaService } from "@/infra/prisma/prisma.service";
+import { PrismaService } from "@/infra/database/prisma/prisma.service";
 import { INestApplication } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Test } from "@nestjs/testing";
@@ -10,6 +10,14 @@ describe('Fetch recent questions (e2e)', () => {
     let app: INestApplication
     let prisma: PrismaService
     let jwt: JwtService
+
+    async function clearDatabase() {
+        await prisma.question.deleteMany()
+    }
+
+    beforeEach(async () => {
+        await clearDatabase()
+    })
 
     beforeAll(async () => {
         const moduleRef = await Test.createTestingModule({

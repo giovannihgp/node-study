@@ -4,6 +4,9 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id.js'
 import { right, type Either } from '@/core/either.js'
 import { QuestionAttachment } from '../../enterprise/entities/question-attachment.js'
 import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list.js'
+import { Injectable, Inject } from '@nestjs/common'
+import { QUESTIONS_REPOSITORY } from '@/infra/database/prisma/repositories/repositories.tokens.js'
+
 
 interface CreateQuestionUseCaseRequest {
   authorId: string
@@ -14,8 +17,12 @@ interface CreateQuestionUseCaseRequest {
 
 type CreateQuestionUseCaseResponse = Either<null, { question: Question }>
 
+@Injectable()
 export class CreateQuestionUseCase {
-  constructor(private questionsRepository: QuestionsRepository) {}
+  constructor(
+    @Inject(QUESTIONS_REPOSITORY)
+    private questionsRepository: QuestionsRepository,
+  ) {}
 
   async execute({
     authorId,

@@ -1,0 +1,6 @@
+export const QUESTIONS_REPOSITORY = 'QuestionsRepository'
+export const QUESTIONS_COMMENTS_REPOSITORY = 'QuestionCommentsRepository'
+export const QUESTIONS_ATTACHMENTS_REPOSITORY = 'QuestionAttachmentsRepositor'
+export const ANSWER_REPOSITORY = 'AnswerRepository'
+export const ANSWER_COMMENTS_REPOSITORY = 'AnswerCommentsRepository'
+export const ANSWER_ATTACHMENTS_REPOSITORY = 'AnswerAttachmentsRepository'
