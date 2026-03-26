@@ -1,6 +1,6 @@
 import { DomainEvents } from "@/core/events/domain-events.js";
-import { StudentsRepository } from "@/domain/forum/application/repositories/students-repository";
-import { Student } from "@/domain/forum/enterprise/entities/student";
+import { StudentsRepository } from "@/domain/forum/application/repositories/students-repository.js";
+import { Student } from "@/domain/forum/enterprise/entities/student.js";
 
 export class InMemoryStudentsRepository implements StudentsRepository {
     public items: Student[] = []

@@ -1,6 +1,6 @@
-import { PaginationParams } from "@/core/repositories/pagination-params";
-import { AnswersRepository } from "@/domain/forum/application/repositories/answer-repository";
-import { Answer } from "@/domain/forum/enterprise/entities/answer";
+import { PaginationParams } from "@/core/repositories/pagination-params.js";
+import { AnswersRepository } from "@/domain/forum/application/repositories/answer-repository.js";
+import { Answer } from "@/domain/forum/enterprise/entities/answer.js";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()

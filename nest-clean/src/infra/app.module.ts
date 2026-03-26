@@ -1,8 +1,8 @@
-import { AuthModule } from "@/infra/auth/auth.module";
-import { envSchema } from "@/infra/env/env";
+import { AuthModule } from "@/infra/auth/auth.module.js";
+import { envSchema } from "@/infra/env/env.js";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
-import { HttpModule } from "./http/http.module";
+import { HttpModule } from "./http/http.module.js";
 
 @Module({
     imports: [

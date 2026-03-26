@@ -2,10 +2,10 @@ import { Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { Env } from "@/infra/env/env";
-import { PrismaModule } from "@/infra/database/prisma.module";
-import { AuthenticateController } from "@/infra/http/controllers/authenticate.controller";
-import { JwkStrategy } from "./jwt.strategy";
+import { Env } from "@/infra/env/env.js";
+import { PrismaModule } from "@/infra/database/prisma.module.js";
+import { AuthenticateController } from "@/infra/http/controllers/authenticate.controller.js";
+import { JwkStrategy } from "./jwt.strategy.js";
 
 @Module({
     imports: [

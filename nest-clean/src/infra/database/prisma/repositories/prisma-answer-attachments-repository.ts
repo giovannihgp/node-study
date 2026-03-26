@@ -1,5 +1,5 @@
-import { AnswerAttachmentsRepository } from "@/domain/forum/application/repositories/answer-attachments-repository";
-import { AnswerAttachment } from "@/domain/forum/enterprise/entities/answer-attachment";
+import { AnswerAttachmentsRepository } from "@/domain/forum/application/repositories/answer-attachments-repository.js";
+import { AnswerAttachment } from "@/domain/forum/enterprise/entities/answer-attachment.js";
 import { Injectable } from "@nestjs/common";
 
 @Injectable()

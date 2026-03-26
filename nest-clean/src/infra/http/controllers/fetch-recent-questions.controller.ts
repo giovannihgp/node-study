@@ -1,9 +1,9 @@
 import { Controller, Get, Query, UseGuards } from "@nestjs/common";
-import { JwtAuthGuard } from "@/infra/auth/jwt-auth.guard";
-import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe";
+import { JwtAuthGuard } from "@/infra/auth/jwt-auth.guard.js";
+import { ZodValidationPipe } from "@/infra/http/pipes/zod-validation-pipe.js";
 import { z } from "zod";
-import { FetchRecentQuestionsUseCase } from "@/domain/forum/application/use-cases/fetch-recent-questions";
-import { QuestionPresenter } from "../presenters/question-presenter";
+import { FetchRecentQuestionsUseCase } from "@/domain/forum/application/use-cases/fetch-recent-questions.js";
+import { QuestionPresenter } from "../presenters/question-presenter.js";
 
 const pageQueryParamSchema = z
     .string()

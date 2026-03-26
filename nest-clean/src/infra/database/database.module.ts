@@ -1,11 +1,11 @@
 import { Module } from "@nestjs/common";
-import { PrismaModule } from "./prisma.module";
-import { PrismaQuestionsRepository } from "./prisma/repositories/prisma-question-repository";
-import { PrismaQuestionCommentsRepository } from "./prisma/repositories/prisma-question-comments-repository";
-import { PrismaQuestionAttachmentsRepository } from "./prisma/repositories/prisma-question-attachments-repository";
-import { PrismaAnswerRepository } from "./prisma/repositories/prisma-answer-repository";
-import { PrismaAnswerCommentsRepository } from "./prisma/repositories/prisma-answer-comments-repository";
-import { PrismaAnswerAttachmentsRepository } from "./prisma/repositories/prisma-answer-attachments-repository";
+import { PrismaModule } from "./prisma.module.js";
+import { PrismaQuestionsRepository } from "./prisma/repositories/prisma-question-repository.js";
+import { PrismaQuestionCommentsRepository } from "./prisma/repositories/prisma-question-comments-repository.js";
+import { PrismaQuestionAttachmentsRepository } from "./prisma/repositories/prisma-question-attachments-repository.js";
+import { PrismaAnswerRepository } from "./prisma/repositories/prisma-answer-repository.js";
+import { PrismaAnswerCommentsRepository } from "./prisma/repositories/prisma-answer-comments-repository.js";
+import { PrismaAnswerAttachmentsRepository } from "./prisma/repositories/prisma-answer-attachments-repository.js";
 import {
     QUESTIONS_REPOSITORY,
     QUESTIONS_COMMENTS_REPOSITORY,
@@ -13,7 +13,7 @@ import {
     ANSWER_REPOSITORY,
     ANSWER_COMMENTS_REPOSITORY,
     ANSWER_ATTACHMENTS_REPOSITORY,
-} from "./prisma/repositories/repositories.tokens";
+} from "./prisma/repositories/repositories.tokens.js";
 
 // console.log("#####TESTE#######");
 

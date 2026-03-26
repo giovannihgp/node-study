@@ -1,6 +1,6 @@
-import { QuestionAttachmentsRepository } from "@/domain/forum/application/repositories/question-attachments-repository";
+import { QuestionAttachmentsRepository } from "@/domain/forum/application/repositories/question-attachments-repository.js";
 import { Injectable } from "@nestjs/common";
-import { QuestionAttachment } from "@/domain/forum/enterprise/entities/question-attachment";
+import { QuestionAttachment } from "@/domain/forum/enterprise/entities/question-attachment.js";
 
 @Injectable()
 export class PrismaQuestionAttachmentsRepository implements QuestionAttachmentsRepository

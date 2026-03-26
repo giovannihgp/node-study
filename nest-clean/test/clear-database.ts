@@ -1,4 +1,4 @@
-import { PrismaService } from "@/infra/database/prisma/prisma.service";
+import { PrismaService } from "@/infra/database/prisma/prisma.service.js";
 
 export async function clearDatabase(prisma: PrismaService) {
     await prisma.answer.deleteMany()

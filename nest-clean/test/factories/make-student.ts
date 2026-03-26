@@ -1,6 +1,6 @@
 import { faker} from "@faker-js/faker";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id.js";
-import { Student, StudentProps } from "@/domain/forum/enterprise/entities/student";
+import { Student, StudentProps } from "@/domain/forum/enterprise/entities/student.js";
 
 export function makeStudent(
     override: Partial<StudentProps> = {},

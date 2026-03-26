@@ -1,9 +1,9 @@
-import { left, right, Either } from "@/core/either";
+import { left, right, Either } from "@/core/either.js";
 import { Injectable } from "@nestjs/common";
-import { StudentsRepository } from "../repositories/students-repository";
-import { HashComparer } from "../cryptography/hash-comparer";
-import { Encrypter } from "../cryptography/encrypter";
-import { WrongCredentialsError } from "./errors/wrong-credentials-error";
+import { StudentsRepository } from "../repositories/students-repository.js";
+import { HashComparer } from "../cryptography/hash-comparer.js";
+import { Encrypter } from "../cryptography/encrypter.js";
+import { WrongCredentialsError } from "./errors/wrong-credentials-error.js";
 
 interface AuthenticateStudentUseCaseRequest {
     email: string
