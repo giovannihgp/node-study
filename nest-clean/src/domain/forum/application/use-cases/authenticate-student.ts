@@ -1,9 +1,11 @@
 import { left, right, Either } from "@/core/either.js";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject } from "@nestjs/common";
 import { StudentsRepository } from "../repositories/students-repository.js";
 import { HashComparer } from "../cryptography/hash-comparer.js";
 import { Encrypter } from "../cryptography/encrypter.js";
 import { WrongCredentialsError } from "./errors/wrong-credentials-error.js";
+import { STUDENTS_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
+import { HASH_COMPARER, ENCRYPTER } from "@/infra/cryptography/cryptography.token.js";
 
 interface AuthenticateStudentUseCaseRequest {
     email: string
@@ -15,8 +17,11 @@ type AuthenticateStudentUseCaseResponse = Either<WrongCredentialsError, { access
 @Injectable()
 export class AuthenticateStudentUseCase {
     constructor(
+        @Inject(STUDENTS_REPOSITORY)
         private studentsRepository: StudentsRepository,
+        @Inject(HASH_COMPARER)
         private hashComparer: HashComparer,
+        @Inject(ENCRYPTER)
         private encrypter: Encrypter,
     ) {}
 

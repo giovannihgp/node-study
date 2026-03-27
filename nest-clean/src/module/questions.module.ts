@@ -5,6 +5,8 @@ import { FetchRecentQuestionsController } from "@/infra/http/controllers/fetch-r
 import { CreateQuestionUseCase } from "@/domain/forum/application/use-cases/create-question.js";
 import { FetchRecentQuestionsUseCase } from "@/domain/forum/application/use-cases/fetch-recent-questions.js";
 import { DatabaseModule } from "@/infra/database/database.module.js";
+import { GetQuestionBySlugController } from "@/infra/http/controllers/get-question-by-slug.controller.js";
+import { GetQuestionBySlugUseCase } from "@/domain/forum/application/use-cases/get-question-by-slug.js";
 
 @Module({
     imports: [
@@ -14,10 +16,12 @@ import { DatabaseModule } from "@/infra/database/database.module.js";
     controllers: [
         CreateQuestionController,
         FetchRecentQuestionsController,
+        GetQuestionBySlugController,
     ],
     providers: [
         CreateQuestionUseCase,
-        FetchRecentQuestionsUseCase
+        FetchRecentQuestionsUseCase,
+        GetQuestionBySlugUseCase,
     ],
 })
-export class QuestionsModule { }
+export class QuestionsModule {}

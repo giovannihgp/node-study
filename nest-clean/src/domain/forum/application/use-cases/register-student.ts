@@ -1,9 +1,11 @@
 import { left, right, Either } from "@/core/either.js";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject } from "@nestjs/common";
 import { Student } from "../../enterprise/entities/student.js";
 import { StudentsRepository } from "../repositories/students-repository.js";
 import { HashGenerator } from "../cryptography/hash-generator.js";
 import { StudentAlreadyExistsError } from "./errors/student-already-exists-error.js";
+import { STUDENTS_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
+import { HASH_GENERATOR } from "@/infra/cryptography/cryptography.token.js";
 
 interface RegisterStudentUseCaseRequest {
     name: string
@@ -16,7 +18,9 @@ type RegisterStudentUseCaseResponse = Either<StudentAlreadyExistsError, { studen
 @Injectable()
 export class RegisterStudentUseCase {
     constructor(
+        @Inject(STUDENTS_REPOSITORY)
         private studentsRepository: StudentsRepository,
+        @Inject(HASH_GENERATOR)
         private hashGenerator: HashGenerator,
     ) {}
 

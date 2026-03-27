@@ -1,21 +1,29 @@
 import { Module } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { JwtModule } from "@nestjs/jwt";
 import { PassportModule } from "@nestjs/passport";
-import { Env } from "@/infra/env/env.js";
 import { PrismaModule } from "@/infra/database/prisma.module.js";
 import { AuthenticateController } from "@/infra/http/controllers/authenticate.controller.js";
 import { JwkStrategy } from "./jwt.strategy.js";
+import { StudentModule } from "@/module/student.module.js";
+import { CryptographyModule } from "../cryptography/cryptography.module.js";
+import { APP_GUARD } from "@nestjs/core";
+import { JwtAuthGuard } from "./jwt-auth.guard.js";
+import { EnvService } from "../env/env.service.js";
+import { EnvModule } from "../env/env.module.js";
 
 @Module({
     imports: [
         PrismaModule,
         PassportModule,
+        StudentModule,
+        CryptographyModule,
         JwtModule.registerAsync({
-            inject: [ConfigService],
-            useFactory(config: ConfigService<Env, true>) {
-                const privateKey = config.get('JWT_PRIVATE_KEY', { infer: true })
-                const publicKey = config.get('JWT_PUBLIC_KEY', { infer: true })
+            imports: [EnvModule],
+            inject: [EnvService],
+            global: true,
+            useFactory(env: EnvService) {
+                const privateKey = env.get('JWT_PRIVATE_KEY')
+                const publicKey = env.get('JWT_PUBLIC_KEY')
 
                 return {
                     signOptions: { algorithm: 'RS256' },
@@ -25,7 +33,16 @@ import { JwkStrategy } from "./jwt.strategy.js";
             },
         }),
     ],
-    controllers: [AuthenticateController],
-    providers: [JwkStrategy],
+    controllers: [
+        AuthenticateController,
+    ],
+    providers: [
+        JwkStrategy,
+        EnvService,
+        {
+            provide: APP_GUARD,
+            useClass: JwtAuthGuard,
+        },
+    ],
 })
 export class AuthModule { }

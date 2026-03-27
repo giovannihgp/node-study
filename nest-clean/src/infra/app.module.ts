@@ -3,6 +3,7 @@ import { envSchema } from "@/infra/env/env.js";
 import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { HttpModule } from "./http/http.module.js";
+import { EnvModule } from "./env/env.module.js";
 
 @Module({
     imports: [
@@ -12,6 +13,7 @@ import { HttpModule } from "./http/http.module.js";
         }),
         AuthModule,
         HttpModule,
+        EnvModule,
     ],
 })
 export class AppModule { }
