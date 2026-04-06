@@ -4,9 +4,11 @@ import type { AnswersRepository } from "@/domain/forum/application/repositories/
 import { right, type Either } from "@/core/either.js";
 import { AnswerAttachment } from "../../enterprise/entities/answer-attachment.js";
 import { AnswerAttachmentList } from "../../enterprise/entities/answer-attachment-list.js";
+import { Injectable, Inject } from "@nestjs/common";
+import { ANSWER_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
 
 interface AnswerQuestionUseCaseRequest {
-    instructorId: string
+    authorId: string
     questionId: string
     attachmentsIds: string[]
     content: string
@@ -14,18 +16,22 @@ interface AnswerQuestionUseCaseRequest {
 
 type AnswerQuestionUseCaseResponse = Either<null, { answer: Answer }>
 
+@Injectable()
 export class AnswerQuestionUseCase {
-    constructor(private answersRepository: AnswersRepository) {}
+    constructor(
+        @Inject(ANSWER_REPOSITORY)
+        private answersRepository: AnswersRepository
+    ) {}
 
     async execute({ 
-        instructorId, 
+        authorId, 
         questionId, 
         content,
         attachmentsIds,
     }: AnswerQuestionUseCaseRequest): Promise<AnswerQuestionUseCaseResponse> {
         const answer = Answer.create({
             content,
-            authorId: new UniqueEntityID(instructorId),
+            authorId: new UniqueEntityID(authorId),
             questionId: new UniqueEntityID(questionId),
         })
 

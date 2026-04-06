@@ -7,6 +7,8 @@ import type { QuestionAttachmentsRepository } from "../repositories/question-att
 import { QuestionAttachmentList } from "../../enterprise/entities/question-attachment-list.js";
 import { QuestionAttachment } from "../../enterprise/entities/question-attachment.js";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id.js";
+import { Injectable, Inject } from "@nestjs/common";
+import { QUESTIONS_REPOSITORY, QUESTIONS_ATTACHMENTS_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
 
 interface EditQuestionUseCaseRequest {
   authorId: string
@@ -18,10 +20,13 @@ interface EditQuestionUseCaseRequest {
 
 type EditQuestionUseCaseResponse = Either<ResourceNotFoundError | NotAllowedError,{ question: Question }>
 
+@Injectable()
 export class EditQuestionUseCase {
     constructor(
+        @Inject(QUESTIONS_REPOSITORY)
         private questionsRepository: QuestionsRepository,
-        private questionAttachmentsRepository: QuestionAttachmentsRepository
+        @Inject(QUESTIONS_ATTACHMENTS_REPOSITORY)
+        private questionAttachmentsRepository: QuestionAttachmentsRepository,
     ) {}
 
     async execute({
@@ -37,7 +42,7 @@ export class EditQuestionUseCase {
             return left(new ResourceNotFoundError())
         }
 
-        if (authorId !== question.authorId.toValue()) {
+        if (authorId !== question.authorId.toString()) {
             return left(new NotAllowedError())
         }
 

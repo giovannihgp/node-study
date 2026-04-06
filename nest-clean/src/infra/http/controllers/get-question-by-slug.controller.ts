@@ -2,11 +2,11 @@ import { GetQuestionBySlugUseCase } from "@/domain/forum/application/use-cases/g
 import { BadRequestException, Controller, Get, Param } from "@nestjs/common";
 import { QuestionPresenter } from "../presenters/question-presenter.js";
 
-@Controller('/questions/:slug')
+@Controller('/questions')
 export class GetQuestionBySlugController {
     constructor(private getQuestionBySlug: GetQuestionBySlugUseCase) {}
 
-    @Get()
+    @Get(':slug')
     async handle(@Param('slug') slug: string) {
         const result = await this.getQuestionBySlug.execute({
             slug,

@@ -5,6 +5,7 @@ import { QuestionsModule } from '@/module/questions.module.js';
 import { DatabaseModule } from '../database/database.module.js';
 import { CryptographyModule } from '../cryptography/cryptography.module.js';
 import { StudentModule } from '@/module/student.module.js';
+import { AnswerModule } from '@/module/answer.module.js';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { StudentModule } from '@/module/student.module.js';
     QuestionsModule,
     CryptographyModule,
     StudentModule,
+    AnswerModule,
   ],
   controllers: [
     CreateAccountController,

@@ -2,6 +2,8 @@ import { left, right, type Either } from "@/core/either.js";
 import type { AnswersRepository } from "../repositories/answer-repository.js";
 import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error.js";
 import { NotAllowedError } from "@/core/errors/errors/not-allowed-error.js";
+import { Injectable, Inject } from "@nestjs/common";
+import { ANSWER_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
 
 interface DeleteAnswerUseCaseRequest {
     authorId: string
@@ -10,8 +12,12 @@ interface DeleteAnswerUseCaseRequest {
 
 type DeleteAnswerUseCaseResponse = Either<ResourceNotFoundError | NotAllowedError, null>
 
+@Injectable()
 export class DeleteAnswerUseCase {
-    constructor(private answerRepository: AnswersRepository) {}
+    constructor(
+        @Inject(ANSWER_REPOSITORY)
+        private answerRepository: AnswersRepository,
+    ) {}
 
     async execute({
         answerId,

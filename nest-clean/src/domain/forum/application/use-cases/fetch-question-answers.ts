@@ -1,6 +1,8 @@
 import type { AnswersRepository } from "../repositories/answer-repository.js";
 import { Answer } from "../../enterprise/entities/answer.js";
 import { right, type Either } from "@/core/either.js";
+import { Injectable, Inject } from "@nestjs/common";
+import { ANSWER_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
 
 interface FetchQuestionAnswersUseCaseRequest {
     questionId: string
@@ -9,8 +11,12 @@ interface FetchQuestionAnswersUseCaseRequest {
 
 type FetchQuestionAnswersUseCaseResponse = Either<null, { answers: Answer[] }>
 
+@Injectable()
 export class FetchQuestionAnswersUseCase {
-    constructor(private answersRepository: AnswersRepository) {}
+    constructor(
+        @Inject(ANSWER_REPOSITORY)
+        private answersRepository: AnswersRepository,
+    ) {}
 
     async execute({
         questionId,

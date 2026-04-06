@@ -7,6 +7,8 @@ import { AnswerAttachmentList } from "../../enterprise/entities/answer-attachmen
 import { UniqueEntityID } from "@/core/entities/unique-entity-id.js";
 import type { AnswerAttachmentsRepository } from "../repositories/answer-attachments-repository.js";
 import { AnswerAttachment } from "../../enterprise/entities/answer-attachment.js";
+import { Injectable, Inject } from "@nestjs/common";
+import { ANSWER_REPOSITORY, ANSWER_ATTACHMENTS_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
 
 interface EditAnswerUseCaseRequest {
     authorId: string
@@ -17,9 +19,12 @@ interface EditAnswerUseCaseRequest {
 
 type EditAnswerUseCaseResponse = Either<ResourceNotFoundError | NotAllowedError, { answer: Answer }>
 
+@Injectable()
 export class EditAnswerUseCase {
     constructor(
+        @Inject(ANSWER_REPOSITORY)
         private answerRepository: AnswersRepository,
+        @Inject(ANSWER_ATTACHMENTS_REPOSITORY)
         private answerAttachmentsRepository: AnswerAttachmentsRepository,
     ) {}
 

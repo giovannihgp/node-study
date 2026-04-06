@@ -17,7 +17,6 @@ import {
 } from "./prisma/repositories/repositories.tokens.js";
 import { PrismaStudentsRepository } from "./prisma/repositories/prisma-students-repository.js";
 
-// console.log("#####TESTE#######");
 
 @Module({
     imports: [PrismaModule],

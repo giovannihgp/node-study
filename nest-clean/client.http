@@ -1,5 +1,6 @@
 @baseUrl = http://localhost:3333
 @authToken = {{authenticate.response.body.access_token}}
+@idQuestion = {{fetch_recent_questions.response.body.Header Name, *(Full Body), JSONPath or XPath}}
 
 # @name create_account
 POST {{baseUrl}}/accounts
@@ -30,7 +31,7 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-    "title": "Nova pergunta ",
+    "title": "Nova pergunta",
     "content": "Teste"
 }
 
@@ -40,3 +41,14 @@ Authorization: Bearer {{authToken}}
 GET {{baseUrl}}/questions?page=1
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
+###
+
+# @name create_answer
+POST {{baseUrl}}/question/{{idQuestion}}/answer
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+    "content": "New Answer"
+}

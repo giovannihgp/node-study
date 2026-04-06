@@ -4,6 +4,8 @@ import type { QuestionsRepository } from "../repositories/questions-repository.j
 import { left, right, type Either } from "@/core/either.js";
 import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error.js";
 import { NotAllowedError } from "@/core/errors/errors/not-allowed-error.js";
+import { Injectable, Inject } from "@nestjs/common";
+import { ANSWER_REPOSITORY, QUESTIONS_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
 
 interface ChooseQuestionBestAnswerUseCaseRequest {
     authorId: string
@@ -12,9 +14,12 @@ interface ChooseQuestionBestAnswerUseCaseRequest {
 
 type ChooseQuestionBestAnswerUseCaseResponse = Either<ResourceNotFoundError | NotAllowedError, { question: Question }>
 
+@Injectable()
 export class ChooseQuestionBestAnswerUseCase {
     constructor(
+        @Inject(QUESTIONS_REPOSITORY)
         private questionsRepository: QuestionsRepository,
+        @Inject(ANSWER_REPOSITORY)
         private answersRepository: AnswersRepository, 
     ) {}
 

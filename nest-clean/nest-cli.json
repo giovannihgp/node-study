@@ -4,6 +4,7 @@
   "sourceRoot": "src",
   "entryFile": "infra/main",
   "compilerOptions": {
+    "tsConfigPath": "tsconfig.json",
     "deleteOutDir": true
   }
 }

@@ -4,6 +4,8 @@ import { AnswerComment } from "../../enterprise/entities/answer-comment.js";
 import type { AnswerCommentsRepository } from "../repositories/answer-comments-repository.js";
 import { left, right, type Either } from "@/core/either.js";
 import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error.js";
+import { Injectable, Inject } from "@nestjs/common";
+import { ANSWER_REPOSITORY, ANSWER_COMMENTS_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
 
 interface CommentOnAnswerUseCaseRequest {
     authorId: string
@@ -13,9 +15,12 @@ interface CommentOnAnswerUseCaseRequest {
 
 type CommentOnAnswerUseCaseResponse = Either<ResourceNotFoundError, { answerComment: AnswerComment }>
 
+@Injectable()
 export class CommentOnAnswerUseCase {
     constructor(
+        @Inject(ANSWER_REPOSITORY)
         private answersRepository: AnswersRepository,
+        @Inject(ANSWER_COMMENTS_REPOSITORY)
         private answerCommentRepository: AnswerCommentsRepository,
     ) {}
 

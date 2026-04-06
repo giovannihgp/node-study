@@ -7,6 +7,9 @@ export default defineConfig({
         globals: true,
         include: ["src/**/*.spec.ts"],
         exclude: ["node_modules", "dist"],
+        sequence: {
+            concurrent: false,
+        },
     },
     plugins: [
         tsConfigPaths(),
