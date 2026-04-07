@@ -1,7 +1,7 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id.js";
 import { AnswerQuestionUseCase } from "./answer-question.js";
-import { InMemoryAnswerAttachmentsRepository } from "test/repositories/in-memory-answer-attachments-repository.js";
-import { InMemoryAnswersRepository } from "test/repositories/in-memory-answer-repository.js";
+import { InMemoryAnswerAttachmentsRepository } from "@test/repositories/in-memory-answer-attachments-repository.js";
+import { InMemoryAnswersRepository } from "@test/repositories/in-memory-answer-repository.js";
 
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository

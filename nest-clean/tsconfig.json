@@ -19,9 +19,9 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"],
+      "@test/*": ["./test/*"]
     },
     "ignoreDeprecations": "5.0",
     "types": [

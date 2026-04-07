@@ -5,8 +5,8 @@ import { Test } from "@nestjs/testing";
 import request from "supertest";
 import { Slug } from "@/domain/forum/enterprise/entities/value-objects/slug.js";
 import { DatabaseModule } from "@/infra/database/database.module.js";
-import { QuestionFactory } from "test/factories/make-question.js";
-import { StudentFactory } from "test/factories/make-student.js";
+import { QuestionFactory } from "@test/factories/make-question.js";
+import { StudentFactory } from "@test/factories/make-student.js";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id.js";
 
 describe('Get question by slug (e2e)', () => {

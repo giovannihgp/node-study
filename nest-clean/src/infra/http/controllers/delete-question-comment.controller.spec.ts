@@ -5,9 +5,9 @@ import { INestApplication } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
-import { QuestionFactory } from "test/factories/make-question.js";
-import { StudentFactory } from "test/factories/make-student.js";
-import { QuestionCommentFactory } from "test/factories/make-question-comment.js";
+import { QuestionFactory } from "@test/factories/make-question.js";
+import { StudentFactory } from "@test/factories/make-student.js";
+import { QuestionCommentFactory } from "@test/factories/make-question-comment.js";
 
 describe('Delete question comment (e2e)', () => {
     let app: INestApplication

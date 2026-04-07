@@ -1,13 +1,13 @@
 import { PrismaService } from "@/infra/database/prisma/prisma.service.js"
 import { INestApplication } from "@nestjs/common"
 import { JwtService } from "@nestjs/jwt"
-import { QuestionFactory } from "test/factories/make-question.js"
-import { StudentFactory } from "test/factories/make-student.js"
+import { QuestionFactory } from "@test/factories/make-question.js"
+import { StudentFactory } from "@test/factories/make-student.js"
 import { AppModule } from "@/infra/app.module.js"
 import { DatabaseModule } from "@/infra/database/database.module.js"
 import { Test } from "@nestjs/testing"
 import request from 'supertest'
-import { AnswerFactory } from "test/factories/make-answer.js"
+import { AnswerFactory } from "@test/factories/make-answer.js"
 
 describe('Edit answer (e2e)', () => {
     let app: INestApplication

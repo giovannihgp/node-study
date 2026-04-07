@@ -5,7 +5,7 @@ import { hash } from "bcryptjs";
 import request from "supertest";
 import { randomUUID } from "crypto";
 import { DatabaseModule } from "@/infra/database/database.module.js";
-import { StudentFactory } from "test/factories/make-student.js";
+import { StudentFactory } from "@test/factories/make-student.js";
 
 describe('Authenticate (e2e)', () => {
     let app: INestApplication

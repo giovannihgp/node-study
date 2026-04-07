@@ -5,9 +5,9 @@ import { INestApplication } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
-import { QuestionFactory } from "test/factories/make-question.js";
-import { StudentFactory } from "test/factories/make-student.js";
-import { AnswerFactory } from "test/factories/make-answer.js";
+import { QuestionFactory } from "@test/factories/make-question.js";
+import { StudentFactory } from "@test/factories/make-student.js";
+import { AnswerFactory } from "@test/factories/make-answer.js";
 
 describe('Comment on answer (e2e)', () => {
     let app: INestApplication

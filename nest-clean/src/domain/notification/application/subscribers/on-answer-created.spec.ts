@@ -1,15 +1,15 @@
 import { OnAnswerCreated } from "./on-answer-created.js"
-import { makeAnswer } from "test/factories/make-answer.js"
-import { InMemoryAnswerAttachmentsRepository } from "test/repositories/in-memory-answer-attachments-repository.js"
-import { InMemoryAnswersRepository } from "test/repositories/in-memory-answer-repository.js"
-import { InMemoryQuestionAttachmentsRepository } from "test/repositories/in-memory-question-attachments-repository.js"
-import { InMemoryQuestionsRepository } from "test/repositories/in-memory-questions-repository.js"
+import { makeAnswer } from "@test/factories/make-answer.js"
+import { InMemoryAnswerAttachmentsRepository } from "@test/repositories/in-memory-answer-attachments-repository.js"
+import { InMemoryAnswersRepository } from "@test/repositories/in-memory-answer-repository.js"
+import { InMemoryQuestionAttachmentsRepository } from "@test/repositories/in-memory-question-attachments-repository.js"
+import { InMemoryQuestionsRepository } from "@test/repositories/in-memory-questions-repository.js"
 import type { SendNotificationUseCaseRequest, SendNotificationUseCaseResponse } from "../use-case/send-notifications.js"
 import { SendNotificationUseCase} from "../use-case/send-notifications.js"
-import { InMemoryNotificationsRepository } from "test/repositories/in-memory-notifications-repository.js"
-import { makeQuestion } from "test/factories/make-question.js"
+import { InMemoryNotificationsRepository } from "@test/repositories/in-memory-notifications-repository.js"
+import { makeQuestion } from "@test/factories/make-question.js"
 import type { MockInstance } from "vitest"
-import { waitFor } from "test/wait-for.js"
+import { waitFor } from "@test/wait-for.js"
 
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository

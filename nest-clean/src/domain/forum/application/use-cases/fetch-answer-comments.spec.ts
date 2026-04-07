@@ -1,7 +1,7 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id.js"
-import { InMemoryAnswerCommentsRepository } from "test/repositories/in-memory-answer-comments-repository.js"
+import { InMemoryAnswerCommentsRepository } from "@test/repositories/in-memory-answer-comments-repository.js"
 import { FetchAnswerCommentsUseCase } from "./fetch-answer-comments.js"
-import { makeAnswersComment } from "test/factories/make-answer-comment.js"
+import { makeAnswersComment } from "@test/factories/make-answer-comment.js"
 
 let inMemoryAnswerCommentsRepository: InMemoryAnswerCommentsRepository
 let sut: FetchAnswerCommentsUseCase

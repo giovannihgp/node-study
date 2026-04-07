@@ -4,8 +4,8 @@ import { JwtService } from "@nestjs/jwt";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
 import { DatabaseModule } from "@/infra/database/database.module.js";
-import { QuestionFactory } from "test/factories/make-question.js";
-import { StudentFactory } from "test/factories/make-student.js";
+import { QuestionFactory } from "@test/factories/make-question.js";
+import { StudentFactory } from "@test/factories/make-student.js";
 
 describe('Fetch recent questions (e2e)', () => {
     let app: INestApplication

@@ -1,8 +1,8 @@
-import { InMemoryAnswersRepository } from "test/repositories/in-memory-answer-repository.js"
+import { InMemoryAnswersRepository } from "@test/repositories/in-memory-answer-repository.js"
 import { FetchQuestionAnswersUseCase } from "./fetch-question-answers.js"
-import { makeAnswer } from "test/factories/make-answer.js"
+import { makeAnswer } from "@test/factories/make-answer.js"
 import { UniqueEntityID } from "@/core/entities/unique-entity-id.js"
-import { InMemoryAnswerAttachmentsRepository } from "test/repositories/in-memory-answer-attachments-repository.js"
+import { InMemoryAnswerAttachmentsRepository } from "@test/repositories/in-memory-answer-attachments-repository.js"
 
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository

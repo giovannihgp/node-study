@@ -4,9 +4,9 @@ import { PrismaService } from "@/infra/database/prisma/prisma.service.js";
 import { INestApplication } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { Test } from "@nestjs/testing";
-import { AnswerFactory } from "test/factories/make-answer.js";
-import { QuestionFactory } from "test/factories/make-question.js";
-import { StudentFactory } from "test/factories/make-student.js";
+import { AnswerFactory } from "@test/factories/make-answer.js";
+import { QuestionFactory } from "@test/factories/make-question.js";
+import { StudentFactory } from "@test/factories/make-student.js";
 import request from "supertest";
 
 describe('Choose question best answer (e2e)', () => {

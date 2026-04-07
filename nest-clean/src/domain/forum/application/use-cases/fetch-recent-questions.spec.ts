@@ -1,7 +1,7 @@
-import { InMemoryQuestionsRepository } from "test/repositories/in-memory-questions-repository.js";
-import { makeQuestion } from "test/factories/make-question.js";
+import { InMemoryQuestionsRepository } from "@test/repositories/in-memory-questions-repository.js";
+import { makeQuestion } from "@test/factories/make-question.js";
 import { FetchRecentQuestionsUseCase } from "./fetch-recent-questions.js";
-import { InMemoryQuestionAttachmentsRepository } from "test/repositories/in-memory-question-attachments-repository.js";
+import { InMemoryQuestionAttachmentsRepository } from "@test/repositories/in-memory-question-attachments-repository.js";
 
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
