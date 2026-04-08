@@ -2,6 +2,8 @@ import { left, right, type Either } from "@/core/either.js";
 import type { AnswerCommentsRepository } from "../repositories/answer-comments-repository.js";
 import { NotAllowedError } from "@/core/errors/errors/not-allowed-error.js";
 import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error.js";
+import { Injectable, Inject } from "@nestjs/common";
+import { ANSWER_COMMENTS_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
 
 interface DeleteAnswerCommentUseCaseRequest {
     authorId: string
@@ -10,8 +12,12 @@ interface DeleteAnswerCommentUseCaseRequest {
 
 type DeleteAnswerCommentUseCaseResponse = Either<ResourceNotFoundError | NotAllowedError, null>
 
+@Injectable()
 export class DeleteAnswerCommentUseCase {
-    constructor(private answerCommentsRepository: AnswerCommentsRepository) {}
+    constructor(
+        @Inject(ANSWER_COMMENTS_REPOSITORY)
+        private answerCommentsRepository: AnswerCommentsRepository
+    ) {}
 
     async execute({
         authorId,

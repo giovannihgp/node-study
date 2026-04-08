@@ -1,6 +1,8 @@
 import { QuestionComment } from "../../enterprise/entities/question-comment.js";
 import { type QuestionCommentsRepository } from "../repositories/question-comments-repository.js";
 import { right, type Either } from "@/core/either.js";
+import { Injectable, Inject } from "@nestjs/common";
+import { QUESTIONS_COMMENTS_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
 
 interface FetchQuestionCommentsUseCaseRequest {
     questionId: string
@@ -9,8 +11,12 @@ interface FetchQuestionCommentsUseCaseRequest {
 
 type FetchQuestionCommentsUseCaseResponse = Either<null, { questionComments: QuestionComment[] }>
 
+@Injectable()
 export class FetchQuestionCommentsUseCase {
-    constructor(private questionCommentsRepository: QuestionCommentsRepository) {}
+    constructor(
+        @Inject(QUESTIONS_COMMENTS_REPOSITORY)
+        private questionCommentsRepository: QuestionCommentsRepository,
+    ) {}
 
     async execute({
         questionId,

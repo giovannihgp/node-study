@@ -15,6 +15,8 @@ import { CommentOnQuestionController } from "@/infra/http/controllers/comment-on
 import { CommentOnQuestionUseCase } from "@/domain/forum/application/use-cases/comment-on-question.js";
 import { DeleteQuestionCommentController } from "@/infra/http/controllers/delete-question-comment.controller.js";
 import { DeleteQuestionCommentUseCase } from "@/domain/forum/application/use-cases/delete-question-comment.js";
+import { FetchQuestionCommentsController } from "@/infra/http/controllers/fetch-question-comments.controller.js";
+import { FetchQuestionCommentsUseCase } from "@/domain/forum/application/use-cases/fetch-question-comments.js";
 
 @Module({
     imports: [
@@ -29,6 +31,7 @@ import { DeleteQuestionCommentUseCase } from "@/domain/forum/application/use-cas
         DeleteQuestionController,
         CommentOnQuestionController,
         DeleteQuestionCommentController,
+        FetchQuestionCommentsController,
     ],
     providers: [
         CreateQuestionUseCase,
@@ -38,6 +41,7 @@ import { DeleteQuestionCommentUseCase } from "@/domain/forum/application/use-cas
         DeleteQuestionUseCase,
         CommentOnQuestionUseCase,
         DeleteQuestionCommentUseCase,
+        FetchQuestionCommentsUseCase,
     ],
 })
 export class QuestionsModule {}

@@ -13,6 +13,10 @@ import { ChooseQuestionBestAnswerController } from "@/infra/http/controllers/cho
 import { ChooseQuestionBestAnswerUseCase } from "@/domain/forum/application/use-cases/choose-question-best-answer.js";
 import { CommentOnAnswerController } from "@/infra/http/controllers/comment-on-answer.controller.js";
 import { CommentOnAnswerUseCase } from "@/domain/forum/application/use-cases/comment-on-answer.js";
+import { DeleteAnswerCommentController } from "@/infra/http/controllers/delete-answer-comment.controller.js";
+import { DeleteAnswerCommentUseCase } from "@/domain/forum/application/use-cases/delete-answer-comment.js";
+import { FetchAnswerCommentsController } from "@/infra/http/controllers/fetch-answer-comments.controller.js";
+import { FetchAnswerCommentsUseCase } from "@/domain/forum/application/use-cases/fetch-answer-comments.js";
 
 @Module({
     imports: [
@@ -26,6 +30,8 @@ import { CommentOnAnswerUseCase } from "@/domain/forum/application/use-cases/com
         FetchQuestionAnswerSController,
         ChooseQuestionBestAnswerController,
         CommentOnAnswerController,
+        DeleteAnswerCommentController,
+        FetchAnswerCommentsController,
     ],
     providers: [
         AnswerQuestionUseCase,
@@ -34,6 +40,8 @@ import { CommentOnAnswerUseCase } from "@/domain/forum/application/use-cases/com
         FetchQuestionAnswersUseCase,
         ChooseQuestionBestAnswerUseCase,
         CommentOnAnswerUseCase,
+        DeleteAnswerCommentUseCase,
+        FetchAnswerCommentsUseCase,
     ],
 })
 export class AnswerModule {}

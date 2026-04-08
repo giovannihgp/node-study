@@ -6,6 +6,7 @@ import { DatabaseModule } from '../database/database.module.js';
 import { CryptographyModule } from '../cryptography/cryptography.module.js';
 import { StudentModule } from '@/module/student.module.js';
 import { AnswerModule } from '@/module/answer.module.js';
+import { AttachmentModule } from '@/module/attachment.module.js';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AnswerModule } from '@/module/answer.module.js';
     CryptographyModule,
     StudentModule,
     AnswerModule,
+    AttachmentModule,
   ],
   controllers: [
     CreateAccountController,

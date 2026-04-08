@@ -25,7 +25,8 @@
     },
     "ignoreDeprecations": "5.0",
     "types": [
-      "vitest/globals"
+      "vitest/globals",
+      "multer"
     ]
   }
 }

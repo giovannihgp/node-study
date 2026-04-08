@@ -20,8 +20,8 @@ describe('Delete Answer', () => {
         prisma = new PrismaService()
     })
     beforeEach(async () => {
-        await prisma.attachment.deleteMany()
         await prisma.comment.deleteMany()
+        await prisma.attachment.deleteMany()
         await prisma.answer.deleteMany()
         await prisma.question.deleteMany()
         await prisma.user.deleteMany()
