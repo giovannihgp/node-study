@@ -14,9 +14,10 @@ import {
     ANSWER_COMMENTS_REPOSITORY,
     ANSWER_ATTACHMENTS_REPOSITORY,
     STUDENTS_REPOSITORY,
+    ATTACHMENTS_REPOSITORY
 } from "./prisma/repositories/repositories.tokens.js";
 import { PrismaStudentsRepository } from "./prisma/repositories/prisma-students-repository.js";
-
+import { PrismaAttachmentsRepository } from "./prisma/repositories/prisma-attachments-repository.js";
 
 @Module({
     imports: [PrismaModule],
@@ -49,6 +50,10 @@ import { PrismaStudentsRepository } from "./prisma/repositories/prisma-students-
             provide: STUDENTS_REPOSITORY,
             useClass: PrismaStudentsRepository,
         },
+        {
+            provide: ATTACHMENTS_REPOSITORY,
+            useClass: PrismaAttachmentsRepository,
+        },
     ],
     exports: [
         PrismaModule,
@@ -59,6 +64,7 @@ import { PrismaStudentsRepository } from "./prisma/repositories/prisma-students-
         ANSWER_COMMENTS_REPOSITORY,
         ANSWER_ATTACHMENTS_REPOSITORY,
         STUDENTS_REPOSITORY,
+        ATTACHMENTS_REPOSITORY,
     ],
 })
 export class DatabaseModule {}

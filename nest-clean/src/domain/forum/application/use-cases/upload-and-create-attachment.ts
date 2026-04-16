@@ -1,9 +1,11 @@
 import { Either, left, right } from "@/core/either.js";
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject } from "@nestjs/common";
 import { InvalidAttachmentTypeError } from "./errors/invalid-attachment-type-error.js";
 import { Attachment } from "../../enterprise/entities/attachment.js";
 import { AttachmentsRepository } from "../repositories/attachments-repository.js";
 import { Uploader } from "../storage/uploader.js";
+import { ATTACHMENTS_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
+import { UPLOADER } from "@/infra/cryptography/cryptography.token.js";
 
 interface UploadAndCreateAttachmentRequest {
     fileName: string
@@ -19,7 +21,9 @@ type UploadAndCreateAttachmentResponse = Either<
 @Injectable()
 export class UploadAndCreateAttachmentUseCase {
     constructor(
+        @Inject(ATTACHMENTS_REPOSITORY)
         private attachmentsRepository: AttachmentsRepository,
+        @Inject(UPLOADER)
         private uploader: Uploader,
     ) {}
 

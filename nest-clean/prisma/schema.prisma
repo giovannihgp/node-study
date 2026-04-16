@@ -19,9 +19,10 @@ model User {
   password String
   role     UserRole @default(STUDENT)
 
-  question Question[]
-  answer   Answer[]
-  Comment  Comment[]
+  question      Question[]
+  answer        Answer[]
+  Comment       Comment[]
+  notifications Notification[]
 
   @@map("users")
 }
@@ -81,6 +82,7 @@ model Comment {
 model Attachment {
   id         String  @id @default(uuid())
   title      String
+  url        String
   questionId String? @map("question_id")
   answerId   String? @map("answer_id")
 
@@ -88,4 +90,17 @@ model Attachment {
   answer   Answer?   @relation(fields: [answerId], references: [id])
 
   @@map("attachments")
+}
+
+model Notification {
+  id          String    @id @default(uuid())
+  recipientId String    @map("recipient_id")
+  title       String
+  content     String
+  readAt      DateTime? @map("read_at")
+  createAt    DateTime  @default(now()) @map("created_at")
+
+  recipient User @relation(fields: [recipientId], references: [id])
+
+  @@map("notifications")
 }
