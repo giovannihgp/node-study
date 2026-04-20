@@ -5,15 +5,25 @@ import { UniqueEntityID } from "@/core/entities/unique-entity-id.js";
 import { NotAllowedError } from "@/core/errors/errors/not-allowed-error.js";
 import { InMemoryQuestionAttachmentsRepository } from "@test/repositories/in-memory-question-attachments-repository.js";
 import { makeQuestionAttachment } from "@test/factories/make-question-attachments.js";
+import { InMemoryAttachmentsRepository } from "@test/repositories/in-memory-attachments-repository.js";
+import { InMemoryStudentsRepository } from "@test/repositories/in-memory-students-repository.js";
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
+let inMemoryStudentsRepository: InMemoryStudentsRepository
 let sut: EditQuestionUseCase
 
 describe('Edit Question', () => {
     beforeEach(() => {
         inMemoryQuestionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository()
-        inMemoryQuestionsRepository = new InMemoryQuestionsRepository(inMemoryQuestionAttachmentsRepository)
+        inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
+        inMemoryStudentsRepository = new InMemoryStudentsRepository()
+        inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
+            inMemoryQuestionAttachmentsRepository,
+            inMemoryAttachmentsRepository,
+            inMemoryStudentsRepository,
+        )
         sut = new EditQuestionUseCase(
             inMemoryQuestionsRepository,
             inMemoryQuestionAttachmentsRepository

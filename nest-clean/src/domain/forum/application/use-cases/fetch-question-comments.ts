@@ -1,15 +1,20 @@
-import { QuestionComment } from "../../enterprise/entities/question-comment.js";
 import { type QuestionCommentsRepository } from "../repositories/question-comments-repository.js";
 import { right, type Either } from "@/core/either.js";
 import { Injectable, Inject } from "@nestjs/common";
 import { QUESTIONS_COMMENTS_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
+import { CommentWithAuthor } from "../../enterprise/entities/value-objects/comment-with-author.js";
 
 interface FetchQuestionCommentsUseCaseRequest {
     questionId: string
     page: number
 }
 
-type FetchQuestionCommentsUseCaseResponse = Either<null, { questionComments: QuestionComment[] }>
+type FetchQuestionCommentsUseCaseResponse = Either<
+    null, 
+    { 
+        comments: CommentWithAuthor[] 
+    }
+>
 
 @Injectable()
 export class FetchQuestionCommentsUseCase {
@@ -22,10 +27,14 @@ export class FetchQuestionCommentsUseCase {
         questionId,
         page,
     }: FetchQuestionCommentsUseCaseRequest): Promise<FetchQuestionCommentsUseCaseResponse> {
-        const questionComments = await this.questionCommentsRepository.findManyByQuestionId(questionId, { page, })
+        const comments = 
+          await this.questionCommentsRepository.findManyByQuestionIdWithAuthor(
+            questionId, 
+            { page, }
+        )
         
         return right({
-            questionComments,
+            comments,
         })
     }
 }

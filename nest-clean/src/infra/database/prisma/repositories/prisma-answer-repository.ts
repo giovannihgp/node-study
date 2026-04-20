@@ -6,6 +6,7 @@ import { PrismaService } from "../prisma.service.js";
 import { PrismaAnswerMapper } from "../mappers/prisma-answer-mapper.js";
 import { AnswerAttachmentsRepository } from "@/domain/forum/application/repositories/answer-attachments-repository.js";
 import { ANSWER_ATTACHMENTS_REPOSITORY } from "./repositories.tokens.js";
+import { DomainEvents } from "@/core/events/domain-events.js";
 
 @Injectable()
 export class PrismaAnswerRepository implements AnswersRepository
@@ -30,7 +31,10 @@ export class PrismaAnswerRepository implements AnswersRepository
         return PrismaAnswerMapper.toDomain(answer)
     }
 
-    async findManyByQuestionId(questionId: string, { page }: PaginationParams): Promise<Answer[]> {
+    async findManyByQuestionId(
+        questionId: string, 
+        { page }: PaginationParams,
+    ): Promise<Answer[]> {
         const answers = await this.prisma.answer.findMany({
             where: {
                 questionId,
@@ -55,6 +59,8 @@ export class PrismaAnswerRepository implements AnswersRepository
         await this.answerAttachmentsRepository.createMany(
             answer.attachments.getItems(),
         )
+
+        DomainEvents.dispatchEventsForAggregate(answer.id)
     }
 
     async save(answer: Answer): Promise<void> {
@@ -68,12 +74,14 @@ export class PrismaAnswerRepository implements AnswersRepository
                 data,
             }),
             this.answerAttachmentsRepository.createMany(
-                answer.attachments.getItems(),
+                answer.attachments.getNewItems(),
             ),
-            this.answerAttachmentsRepository.createMany(
+            this.answerAttachmentsRepository.deleteMany(
                 answer.attachments.getRemovedItems(),
             ),
         ])
+
+        DomainEvents.dispatchEventsForAggregate(answer.id)
     }
 
     async delete(answer: Answer): Promise<void> {
