@@ -21,5 +21,9 @@ import { LocalUploader } from "@/infra/storage/local-uploader.js";
             useClass: LocalUploader,
         },
     ],
+    exports: [
+        UploadAndCreateAttachmentUseCase,
+        UPLOADER,
+    ],
 })
 export class AttachmentModule {}

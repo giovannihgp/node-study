@@ -24,6 +24,7 @@ describe('Delete Answer', () => {
         await prisma.attachment.deleteMany()
         await prisma.answer.deleteMany()
         await prisma.question.deleteMany()
+        await prisma.notification.deleteMany()
         await prisma.user.deleteMany()
     })
 

@@ -8,6 +8,8 @@ export class DomainEvents {
     private static handlersMap: Record<string, DomainEventCallback[]> = {}
     private static markedAggregates: AggregateRoot<unknown>[] = []
 
+    public static shouldRun = true
+
     public static markAggregateForDispatch(aggregate: AggregateRoot<unknown>) {
         const aggregateFound = !!this.findMarkedAggregateByID(aggregate.id)
 
@@ -67,6 +69,10 @@ export class DomainEvents {
 
     private static dispatch(event: DomainEvent) {
         const eventClassName: string = event.constructor.name
+
+        if (!this.shouldRun) {
+            return
+        }
 
         const handlers = this.handlersMap[eventClassName] ?? []
 

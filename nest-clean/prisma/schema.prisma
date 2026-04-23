@@ -98,7 +98,7 @@ model Notification {
   title       String
   content     String
   readAt      DateTime? @map("read_at")
-  createAt    DateTime  @default(now()) @map("created_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
 
   recipient User @relation(fields: [recipientId], references: [id])
 

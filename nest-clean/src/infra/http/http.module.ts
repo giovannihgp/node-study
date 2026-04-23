@@ -7,6 +7,7 @@ import { CryptographyModule } from '../cryptography/cryptography.module.js';
 import { StudentModule } from '@/module/student.module.js';
 import { AnswerModule } from '@/module/answer.module.js';
 import { AttachmentModule } from '@/module/attachment.module.js';
+import { NotificationModule } from '@/module/notification.module.js';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { AttachmentModule } from '@/module/attachment.module.js';
     StudentModule,
     AnswerModule,
     AttachmentModule,
+    NotificationModule,
   ],
   controllers: [
     CreateAccountController,

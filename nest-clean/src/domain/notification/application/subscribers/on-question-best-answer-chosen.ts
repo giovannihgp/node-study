@@ -3,9 +3,13 @@ import type { EventHandler } from "@/core/events/event-handler.js";
 import type { AnswersRepository } from "@/domain/forum/application/repositories/answer-repository.js";
 import { QuestionBestAnswerChosenEvent } from "@/domain/forum/enterprise/events/question-best-answer-chosen.js";
 import { SendNotificationUseCase } from "../use-case/send-notifications.js";
+import { Injectable, Inject } from "@nestjs/common";
+import { ANSWER_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
 
+@Injectable()
 export class OnQuestionBestAnswerChosen implements EventHandler {
     constructor(
+        @Inject(ANSWER_REPOSITORY)
         private answersRepository: AnswersRepository,
         private sendNotification: SendNotificationUseCase,
     ) {

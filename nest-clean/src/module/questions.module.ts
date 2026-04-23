@@ -43,5 +43,15 @@ import { FetchQuestionCommentsUseCase } from "@/domain/forum/application/use-cas
         DeleteQuestionCommentUseCase,
         FetchQuestionCommentsUseCase,
     ],
+    exports: [
+        CreateQuestionUseCase,
+        FetchRecentQuestionsUseCase,
+        GetQuestionBySlugUseCase,
+        EditQuestionUseCase,
+        DeleteQuestionUseCase,
+        CommentOnQuestionUseCase,
+        DeleteQuestionCommentUseCase,
+        FetchQuestionCommentsUseCase,
+    ],
 })
 export class QuestionsModule {}

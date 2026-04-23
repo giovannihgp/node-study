@@ -8,6 +8,7 @@ async function clearDatabase() {
         await prisma.comment.deleteMany()
         await prisma.answer.deleteMany()
         await prisma.question.deleteMany()
+        await prisma.notification.deleteMany()
         await prisma.user.deleteMany()
 
         console.log('Banco limpo com sucesso')

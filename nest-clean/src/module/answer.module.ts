@@ -43,5 +43,15 @@ import { FetchAnswerCommentsUseCase } from "@/domain/forum/application/use-cases
         DeleteAnswerCommentUseCase,
         FetchAnswerCommentsUseCase,
     ],
+    exports: [
+        AnswerQuestionUseCase,
+        EditAnswerUseCase,
+        DeleteAnswerUseCase,
+        FetchQuestionAnswersUseCase,
+        ChooseQuestionBestAnswerUseCase,
+        CommentOnAnswerUseCase,
+        DeleteAnswerCommentUseCase,
+        FetchAnswerCommentsUseCase,
+    ],
 })
 export class AnswerModule {}

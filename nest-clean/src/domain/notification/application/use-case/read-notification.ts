@@ -3,6 +3,8 @@ import { Notification } from "../../enterprise/entities/notification.js";
 import type { NotificationsRepository } from "../repositories/notifications-repository.js";
 import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error.js";
 import { NotAllowedError } from "@/core/errors/errors/not-allowed-error.js";
+import { Injectable, Inject } from "@nestjs/common";
+import { NOTIFICATIONS_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
 
 interface ReadNotificationUseCaseRequest {
     recipientId: string
@@ -11,8 +13,12 @@ interface ReadNotificationUseCaseRequest {
 
 type ReadNotificationUseCaseResponse = Either<ResourceNotFoundError | NotAllowedError, { notification: Notification }>
 
+@Injectable()
 export class ReadNotificationUseCase {
-    constructor(private notificationsRepository: NotificationsRepository) { }
+    constructor(
+        @Inject(NOTIFICATIONS_REPOSITORY)
+        private notificationsRepository: NotificationsRepository
+    ) { }
 
     async execute({
         recipientId,

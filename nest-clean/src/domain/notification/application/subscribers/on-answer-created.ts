@@ -3,9 +3,13 @@ import { DomainEvents } from "@/core/events/domain-events.js";
 import { AnswerCreateEvent } from "@/domain/forum/enterprise/events/answer-created-event.js";
 import type { QuestionsRepository } from "@/domain/forum/application/repositories/questions-repository.js";
 import { SendNotificationUseCase } from "../use-case/send-notifications.js";
+import { Injectable, Inject } from "@nestjs/common";
+import { QUESTIONS_REPOSITORY } from "@/infra/database/prisma/repositories/repositories.tokens.js";
 
+@Injectable()
 export class OnAnswerCreated implements EventHandler {
     constructor(
+        @Inject(QUESTIONS_REPOSITORY)
         private questionsRepository: QuestionsRepository,
         private sendNotification: SendNotificationUseCase,
     ) {
