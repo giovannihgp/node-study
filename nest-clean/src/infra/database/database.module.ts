@@ -6,6 +6,10 @@ import { PrismaQuestionAttachmentsRepository } from "./prisma/repositories/prism
 import { PrismaAnswerRepository } from "./prisma/repositories/prisma-answer-repository.js";
 import { PrismaAnswerCommentsRepository } from "./prisma/repositories/prisma-answer-comments-repository.js";
 import { PrismaAnswerAttachmentsRepository } from "./prisma/repositories/prisma-answer-attachments-repository.js";
+import { PrismaStudentsRepository } from "./prisma/repositories/prisma-students-repository.js";
+import { PrismaAttachmentsRepository } from "./prisma/repositories/prisma-attachments-repository.js";
+import { PrismaNotificationsRepository } from "./prisma/repositories/prisma-notifications-repository.js";
+import { CacheModule } from "../cache/cache.module.js";
 import {
     QUESTIONS_REPOSITORY,
     QUESTIONS_COMMENTS_REPOSITORY,
@@ -17,12 +21,12 @@ import {
     ATTACHMENTS_REPOSITORY,
     NOTIFICATIONS_REPOSITORY,
 } from "./prisma/repositories/repositories.tokens.js";
-import { PrismaStudentsRepository } from "./prisma/repositories/prisma-students-repository.js";
-import { PrismaAttachmentsRepository } from "./prisma/repositories/prisma-attachments-repository.js";
-import { PrismaNotificationsRepository } from "./prisma/repositories/prisma-notifications-repository.js";
 
 @Module({
-    imports: [PrismaModule],
+    imports: [
+        PrismaModule,
+        CacheModule,
+    ],
     providers: [
         {
             provide: QUESTIONS_REPOSITORY,
@@ -60,6 +64,7 @@ import { PrismaNotificationsRepository } from "./prisma/repositories/prisma-noti
             provide: NOTIFICATIONS_REPOSITORY,
             useClass: PrismaNotificationsRepository,
         },
+        
     ],
     exports: [
         PrismaModule,
