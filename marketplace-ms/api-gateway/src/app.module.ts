@@ -1,8 +1,6 @@
-import { 
-  Module, 
-  type MiddlewareConsumer, 
-  type NestModule, 
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import type { MiddlewareConsumer } from '@nestjs/common';
+import type { NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -10,6 +8,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { ProxyModule } from './proxy/proxy.module';
 import { MiddlewareModule } from './middleware/middleware.module';
 import { LoggingMiddleware } from './middleware/logging/logging.middleware.js';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,12 +17,24 @@ import { LoggingMiddleware } from './middleware/logging/logging.middleware.js';
     }),
     ThrottlerModule.forRoot([
       {
+        name: 'short',
+        ttl: 1000,
+        limit: 10,
+      },
+      {
+        name: 'medium',
         ttl: 60000,
         limit: 100,
+      },
+      {
+        name: 'long',
+        ttl: 900000,
+        limit: 1000,
       },
     ]),
     ProxyModule,
     MiddlewareModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
