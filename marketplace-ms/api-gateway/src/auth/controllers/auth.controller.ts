@@ -1,6 +1,9 @@
 import { Controller, Body, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from '../service/auth.service.js';
+import { Throttle } from '@nestjs/throttler';
+import { LoginDto } from '../dtos/login.dto.js';
+import { RegisterDto } from '../dtos/register.dto.js';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -9,19 +12,40 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'User login' })
-  @ApiResponse({ status: 200, description: 'Login successful' })
-  @ApiResponse({ status: 401, description: 'Invalid credentials' })
-  async login(@Body() loginDto: {email: string; password: string}) {
+  @ApiOperation({
+    summary: 'User login',
+    description: 'Autentica um usuário e retorna JWT e session token',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Login realizado com sucesso',
+    schema: {
+      type: 'object',
+      properties: {
+        user: { type: 'object' },
+        accessToken: { type: 'string' },
+        sessionToken: { type: 'string' },
+        expiresId: { type: 'number' },
+      },
+    },
+  })
+  @ApiResponse({ status: 401, description: 'Credenciais inválidas' })
+  @Throttle({ short: { limit: 5, ttl: 60000 } })
+  async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
   }
 
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'User registration successful' })
-  @ApiResponse({ status: 201, description: 'Registration successful' })
-  @ApiResponse({ status: 400, description: 'Invalid registation data' })
-  async register(@Body() registerDto: any) {
+  @ApiOperation({
+    summary: 'Registro de usuário',
+    description: 'Cria uma nova conta de usuário no sistema',
+  })
+  @ApiResponse({ status: 201, description: 'Usuário registrado com sucesso' })
+  @ApiResponse({ status: 400, description: 'Dados inválidos' })
+  @ApiResponse({ status: 409, description: 'Email já cadastrado' })
+  @Throttle({ medium: { limit: 3, ttl: 60000 } })
+  async register(@Body() registerDto: RegisterDto) {
     return this.authService.register(registerDto);
   }
 }

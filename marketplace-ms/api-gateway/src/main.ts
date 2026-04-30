@@ -62,13 +62,65 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Marketplace API Gateway')
-    .setDescription('API Gateway for Marketplace Microservices')
+    .setDescription(
+      `
+        API Gateway para o sistema de Marketplace com MicrosServiços
+
+        Serviços Disponíveis:
+        - Users Service: Autenticação e gestão de usuários
+        - Products Service: Catálado e gestão de produtos
+        - Checkout Service: Carrinho e processamento de pedidos
+        - Payments Service: Processamento de pagamentos
+
+        Autenticação:
+        - Use JWT Bearer token para rotas protegidas
+        - Use Session token para validação de sessão
+      `,
+    )
     .setVersion('1.0')
-    .addBearerAuth()
+    .setContact(
+      'Marketplace Team',
+      '<http://marketplace.com>',
+      'dev@marketplace.com',
+    )
+    .setLicense('MIT', '<http://opensource.org/licenses/MIT>')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'JWT-auth',
+    )
+    .addApiKey(
+      {
+        type: 'apiKey',
+        name: 'x-session-token',
+        in: 'header',
+        description: 'Session token for user validation',
+      },
+      'session-auth',
+    )
+    .addTag('Authentication', 'Endpoints para autenticação e autorização')
+    .addTag('Users', 'Endpoints para gestão de usuário')
+    .addTag('Products', 'Endpoints para catálago de produtos')
+    .addTag('Checkout', 'Endpints para carrinho e pedidos')
+    .addTag('Payments', 'Endpoints para processamento de pagamentos')
+    .addTag('Health', 'Endpoints para monitoramento de saúde')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document, {
+    swaggerOptions: {},
+    customSiteTitle: 'Marketplace API Gateway Documentation',
+    customCss: `
+      .swagger-ui .topbar { display: none }
+      .swagger-ui .info .title { color: #3b82f6 }
+    `,
+  });
 
   const port = process.env.PORT || 3005;
   await app.listen(port);

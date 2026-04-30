@@ -3,6 +3,14 @@ import { Injectable, Logger } from '@nestjs/common';
 import { serviceConfig } from '@/config/gateway.config.js';
 import { firstValueFrom } from 'rxjs';
 
+interface UserInfo {
+  userId: string;
+  email: string;
+  role: string;
+}
+
+type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
+
 @Injectable()
 export class ProxyService {
   private readonly logger = new Logger(ProxyService.name);
@@ -13,9 +21,9 @@ export class ProxyService {
     serviceName: keyof typeof serviceConfig,
     method: string,
     path: string,
-    data?: any,
-    headers?: any,
-    userInfo?: any,
+    data?: unknown,
+    headers?: Record<string, string>,
+    userInfo?: UserInfo,
   ) {
     const service = serviceConfig[serviceName];
     const url = `${service.url}${path}`;
@@ -32,7 +40,7 @@ export class ProxyService {
 
       const response = await firstValueFrom(
         this.httpService.request({
-          method: method.toLowerCase() as any,
+          method: method.toLowerCase() as HttpMethod,
           url,
           data,
           headers: enhancedHeaders,
@@ -42,9 +50,17 @@ export class ProxyService {
 
       return response;
     } catch (error) {
-      this.logger.error(
-        `Error proxying ${method} request to ${serviceName}: ${url}`,
-      );
+      if (error instanceof Error) {
+        this.logger.error(
+          `Error proxying ${method} request to ${serviceName}: ${url}`,
+          error.stack,
+        );
+      } else {
+        this.logger.error(
+          `Error proxying ${method} request to ${serviceName}: ${url}`,
+        );
+      }
+
       throw error;
     }
   }
@@ -61,7 +77,10 @@ export class ProxyService {
 
       return { status: 'healthy', data: response.data };
     } catch (error) {
-      return { status: 'unhealthy', error: error.message };
+      if (error instanceof Error) {
+        return { status: 'unhealthy', error: error.message };
+      }
+      return { status: 'unhealthy', error: 'Unknown error' };
     }
   }
 }

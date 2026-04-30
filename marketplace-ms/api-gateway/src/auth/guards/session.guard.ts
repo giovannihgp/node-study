@@ -1,6 +1,4 @@
-import { CanActivate } from '@nestjs/common';
-import { ExecutionContext } from '@nestjs/common';
-import { Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { UnauthorizedException } from '@nestjs/common';
 import type { AuthService } from '../service/auth.service.js';
 
@@ -28,6 +26,14 @@ export class SessionGuard implements CanActivate {
 
       return true;
     } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
+
       throw new UnauthorizedException('Invalid session token');
     }
   }
