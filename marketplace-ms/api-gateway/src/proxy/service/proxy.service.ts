@@ -2,6 +2,9 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { serviceConfig } from '@/config/gateway.config.js';
 import { firstValueFrom } from 'rxjs';
+import { CircuitBreakerService } from '@/common/circuit-breaker/circuit-breaker.service.js';
+import { CacheFallbackService } from '@/common/fallback/cache.fallback.js';
+import { DefaultFallbackService } from '@/common/fallback/default.fallback.js';
 
 interface UserInfo {
   userId: string;
@@ -15,7 +18,12 @@ type HttpMethod = 'get' | 'post' | 'put' | 'patch' | 'delete';
 export class ProxyService {
   private readonly logger = new Logger(ProxyService.name);
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly circuitBreakerService: CircuitBreakerService,
+    private readonly cacheFallbackService: CacheFallbackService,
+    private readonly defaultFallbackService: DefaultFallbackService,
+  ) {}
 
   async proxyRequest(
     serviceName: keyof typeof serviceConfig,
@@ -30,39 +38,40 @@ export class ProxyService {
 
     this.logger.log(`Proxying ${method} request to ${serviceName}: ${url}`);
 
-    try {
-      const enhancedHeaders = {
-        ...headers,
-        'x-user-id': userInfo?.userId,
-        'x-user-email': userInfo?.email,
-        'x-user-role': userInfo?.role,
-      };
+    const fallback = this.createServiceFallback(serviceName, method, path);
 
-      const response = await firstValueFrom(
-        this.httpService.request({
-          method: method.toLowerCase() as HttpMethod,
-          url,
-          data,
-          headers: enhancedHeaders,
-          timeout: service.timeout,
-        }),
-      );
+    return this.circuitBreakerService.executeWithCircuitBreaker(
+      async () => {
+        const enhancedHeaders = {
+          ...headers,
+          'x-user-id': userInfo?.userId,
+          'x-user-email': userInfo?.email,
+          'x-user-role': userInfo?.role,
+        };
 
-      return response;
-    } catch (error) {
-      if (error instanceof Error) {
-        this.logger.error(
-          `Error proxying ${method} request to ${serviceName}: ${url}`,
-          error.stack,
+        const response = await firstValueFrom(
+          this.httpService.request({
+            method: method.toLowerCase() as HttpMethod,
+            url,
+            data,
+            headers: enhancedHeaders,
+            timeout: service.timeout,
+          }),
         );
-      } else {
-        this.logger.error(
-          `Error proxying ${method} request to ${serviceName}: ${url}`,
-        );
-      }
 
-      throw error;
-    }
+        if (method.toLowerCase() === 'get') {
+          this.cacheFallbackService.setCachedData(
+            `${serviceName}-${path}`,
+            response.data,
+          );
+        }
+
+        return response.data;
+      },
+      `proxy-${serviceName}`,
+      { failureThreshold: 3, timeout: 30000, resetTimeout: 30000 },
+      fallback,
+    );
   }
 
   async getServiceHealth(serviceName: keyof typeof serviceConfig) {
@@ -71,7 +80,7 @@ export class ProxyService {
 
       const response = await firstValueFrom(
         this.httpService.get(`${service}/health`, {
-          timeout: 10000,
+          timeout: 3000,
         }),
       );
 
@@ -81,6 +90,50 @@ export class ProxyService {
         return { status: 'unhealthy', error: error.message };
       }
       return { status: 'unhealthy', error: 'Unknown error' };
+    }
+  }
+
+  private createServiceFallback(
+    serviceName: string,
+    method: string,
+    path: string,
+  ) {
+    switch (serviceName) {
+      case 'users':
+        if (path.includes('/auth/login')) {
+          return this.defaultFallbackService.createErrorFallback(
+            'users',
+            'Authentication service unavailable',
+          );
+        }
+
+        return this.defaultFallbackService.createErrorFallback(
+          'users',
+          'User service unavailable',
+        );
+      case 'products':
+        if (method.toLowerCase() === 'get') {
+          return this.cacheFallbackService.createCacheFallback(
+            `products-${path}`,
+            { products: [], total: 0, page: 1, limit: 10 },
+          );
+        }
+
+        return this.defaultFallbackService.createErrorFallback(
+          'products',
+          'Product service unavailable',
+        );
+      case 'checkout':
+      case 'payments':
+        return this.defaultFallbackService.createErrorFallback(
+          serviceName,
+          `${serviceName} service unavailable`,
+        );
+      default:
+        return this.defaultFallbackService.createErrorFallback(
+          serviceName,
+          'Service unavailable',
+        );
     }
   }
 }
