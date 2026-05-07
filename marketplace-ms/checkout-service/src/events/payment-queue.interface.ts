@@ -4,7 +4,7 @@ export interface PaymentOrderMessage {
   amount: number;
   items: Array<{
     productId: string;
-    quantify: number;
+    quantity: number;
     price: number;
   }>;
   paymentMethod: string;
