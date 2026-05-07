@@ -10,8 +10,8 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class RabbitmqService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(RabbitmqService.name);
-  private connection: amqp.ChannelModel;
-  private channel: amqp.Channel;
+  private connection!: amqp.ChannelModel;
+  private channel!: amqp.Channel;
 
   constructor(private configService: ConfigService) {}
 
@@ -50,10 +50,9 @@ export class RabbitmqService implements OnModuleInit, OnModuleDestroy {
         this.logger.log('✅ RabbitMQ connection unblockes');
       });
     } catch (error) {
-      this.logger.warn(
-        '⚠️ Failed to connect to RabbitMQ, continuing wihout message quere: ',
-        error.message || error,
-      );
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      this.logger.warn(`⚠️ Failed to connect to RabbitMQ: ${errorMessage}`);
     }
   }
 
