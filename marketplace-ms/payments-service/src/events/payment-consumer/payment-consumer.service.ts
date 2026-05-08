@@ -21,6 +21,15 @@ export class PaymentConsumerService implements OnModuleInit {
     try {
       this.logger.log('👂 Starting to consume payment orders from queue');
 
+      const isConnected = await this.rabbitMQService.waitForConnection();
+
+      if (!isConnected) {
+        this.logger.error(
+          '❌ Could not connect to RabbitMQ after multiple attempts',
+        );
+        return;
+      }
+
       await this.paymentQueueService.consumePaymentOrders(
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         this.processPaymentOrder.bind(this),
@@ -70,6 +79,11 @@ export class PaymentConsumerService implements OnModuleInit {
 
     if (!message.amount || message.amount <= 0) {
       this.logger.error('Invalid amount in payment message');
+      return false;
+    }
+
+    if (!message.paymentMethod) {
+      this.logger.error('Missing paymentMethod in payment message');
       return false;
     }
 

@@ -23,6 +23,19 @@ export class RabbitmqService implements OnModuleInit, OnModuleDestroy {
     await this.disconnect();
   }
 
+  async waitForConnection(maxAttempts = 10, delayMs = 500): Promise<boolean> {
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      if (this.channel) {
+        return true;
+      }
+      this.logger.log(
+        `⏳ Waiting for RabbitMQ connection... (attempt ${attempt}/${maxAttempts})`,
+      );
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+    return false;
+  }
+
   private async connect() {
     try {
       const rabbitmqUrl = this.configService.get<string>(
@@ -52,7 +65,9 @@ export class RabbitmqService implements OnModuleInit, OnModuleDestroy {
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : String(error);
-      this.logger.warn(`⚠️ Failed to connect to RabbitMQ: ${errorMessage}`);
+      this.logger.warn(`❌ Failed to connect to RabbitMQ: ${errorMessage}`);
+
+      throw error;
     }
   }
 
@@ -133,6 +148,22 @@ export class RabbitmqService implements OnModuleInit, OnModuleDestroy {
         durable: true,
       });
 
+      const dlxExchange = `${exchange}.dlx`;
+      await this.channel.assertExchange(dlxExchange, 'topic', {
+        durable: true,
+      });
+
+      const dlqName = `${queueName}.dlq`;
+      await this.channel.assertQueue(dlqName, {
+        durable: true,
+        arguments: {
+          'x-message-ttl': 604800000,
+        },
+      });
+
+      const routingKeyDlq = `${routingKey}.dlq`;
+      await this.channel.bindQueue(dlqName, dlxExchange, routingKeyDlq);
+
       const queue = await this.channel.assertQueue(queueName, {
         durable: true,
         arguments: {
@@ -144,6 +175,7 @@ export class RabbitmqService implements OnModuleInit, OnModuleDestroy {
       await this.channel.bindQueue(queue.queue, exchange, routingKey);
 
       await this.channel.prefetch(1);
+
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       await this.channel.consume(queue.queue, async (msg) => {
         if (msg) {
